@@ -6,10 +6,10 @@ import './App.css';
 
 
 class TodoListTask extends React.Component {
-    render = () => {debugger
+    render = () => {
         return <div className="todoList-task">
-            <input type={this.props.inputType} checked={this.props.checked}/>
-            <span>{`${this.props.taskName} ${this.props.priority}`}</span>
+            <input onChange={(e)=>{this.props.onChangeInputValue(e.target.checked,this.props.task)}}  type={this.props.task.type} checked={this.props.task.checked}/>
+            <span>{`${this.props.task.taskName} ${this.props.task.priority}`}</span>
         </div>
     }
 }
