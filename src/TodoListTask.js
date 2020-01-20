@@ -7,9 +7,9 @@ import './App.css';
 
 class TodoListTask extends React.Component {
     render = () => {
-        return <div className="todoList-task">
+        return <div className="todoList-task" className={this.props.task.checked?"taskChecked":""}>
             <input onChange={(e)=>{this.props.onChangeInputValue(e.target.checked,this.props.task)}}  type={this.props.task.type} checked={this.props.task.checked}/>
-            <span>{`${this.props.task.taskName} ${this.props.task.priority}`}</span>
+            <span >{`${this.props.task.taskName} ${this.props.task.priority}`}</span>
         </div>
     }
 }
