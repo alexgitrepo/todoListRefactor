@@ -3,75 +3,44 @@ import './App.css';
 import TodoListHeader from "./TodoListHeader";
 import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
+import TodoList from "./TodoList";
+import ItemInput from "./ItemInput";
 
 class App extends React.Component {
     componentDidMount() {
-        let state = localStorage.getItem("todoListState")
+        let state = localStorage.getItem("AppState")
         let savedState = JSON.parse(state)
         this.setState({...savedState})
     }
 
     state = {
-        tasks: [],
-        filterValue: "ALL"
+        todoLists: [],
+        toDoListId: 0
     }
-    taskId = 0
+
     saveStateToLocalStorage = () => {
         let stateCopy = JSON.stringify(this.state)
-        localStorage.setItem("todoListState", stateCopy)
+        localStorage.setItem("AppState", stateCopy)
     }
-    changeTaskName = (newTaskName, task) => {
-        let newTasksArray = this.state.tasks.map(item => {
-            if (item === task) {
-                return {...item, taskName: newTaskName}
-            } else {
-                return item
-            }
-        })
-        this.setState({...this.state, tasks: [...newTasksArray]}, this.saveStateToLocalStorage)
-
-    }
-
-    addNewTask = (newTaskTextFromInput) => {
-        let newTask = { type: "checkbox",
-            checked: false,
-            taskName: newTaskTextFromInput,
-            priority: "priority: Looow Yeah",
-            taskId:++this.taskId
-        }
-        this.setState({...this.state, tasks: [...this.state.tasks, newTask]}, this.saveStateToLocalStorage)
-
+    addNewToDoList = (todoListTitle) => {
+        let newTodoListId = this.state.toDoListId++
+        const newTodoList = {todoLisTitle: todoListTitle, toDoListId:newTodoListId}
+        this.setState({
+            ...this.state,
+            todoLists: [...this.state.todoLists, newTodoList],
+            todoListId: newTodoListId
+        }, this.saveStateToLocalStorage)
 
     }
-    changeFilterValue = (newFilterValue) => {
-        this.setState({...this.state, filterValue: newFilterValue}, this.saveStateToLocalStorage
-        )
-
-
-    }
-    onChangeInputValue = (newCheckInputValue, currentTask) => {
-        let newTasksArray = this.state.tasks.map(item => {
-            if (item !== currentTask) {
-                return item
-            } else {
-                return {...item, checked: newCheckInputValue}
-            }
-        })
-        this.setState({...this.state, tasks: [...newTasksArray]}, this.saveStateToLocalStorage)
-    }
-
 
     render = () => {
-        let filteredTasks = (this.state.filterValue === "ALL") ? this.state.tasks : (this.state.filterValue === "Active") ?
-            this.state.tasks.filter(item => item.checked === false) : this.state.filterValue === "Completed" ? this.state.tasks.filter(item => item.checked === true) : ''
-
+        let todoLists = this.state.todoLists.map((item) => <TodoList title={item.todoLisTitle} placeholder={"Add new task"}
+                                                                     todoListId={item.toDoListId}/>)
         return (
             <div className="App">
-                <div className="todoList">
-                    <TodoListHeader addNewTask={this.addNewTask}/>
-                    <TodoListTasks onChangeInputValue={this.onChangeInputValue} changeTaskName={this.changeTaskName}
-                                   tasks={filteredTasks}/>
-                    <TodoListFooter changeFilterValue={this.changeFilterValue} filterValue={this.state.filterValue}/>
+                <ItemInput addItem={this.addNewToDoList} placeholder={"New todolist name"}/>
+                <div className="todoLists">
+                    {todoLists}
                 </div>
             </div>
         );

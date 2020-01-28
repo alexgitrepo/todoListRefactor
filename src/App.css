@@ -3,7 +3,7 @@
 }
 
 .todoList {
-  width: 500px;
+  width: 400px;
   margin: 0 auto;
 }
 
@@ -19,3 +19,7 @@
 }
 .inputErrorStyle{border:red solid 2px}
 .taskChecked {opacity: 0.4}
+.todoLists{
+  display: flex;
+  flex-wrap:wrap;
+}
