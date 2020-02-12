@@ -5,46 +5,8 @@ import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
 
 class TodoList extends React.Component {
-    componentDidMount() {
-
-        let state = localStorage.getItem(this.props.todoListId)
-        let savedState = JSON.parse(state)
-        this.setState({...savedState})
-    }
-
-    state = {
-        tasks: [],
-        filterValue: "ALL"
-    }
-    taskId = 0
-    saveStateToLocalStorage = () => {
-        let stateCopy = JSON.stringify(this.state)
-        localStorage.setItem(this.props.todoListId, stateCopy)
-    }
-    changeTaskName = (newTaskName, task) => {
-        let newTasksArray = this.state.tasks.map(item => {
-            if (item === task) {
-                return {...item, taskName: newTaskName}
-            } else {
-                return item
-            }
-        })
-        this.setState({...this.state, tasks: [...newTasksArray]}, this.saveStateToLocalStorage)
-
-    }
-
-    addNewTask = (newTaskTextFromInput) => {
-        let newTask = { type: "checkbox",
-            checked: false,
-            taskName: newTaskTextFromInput,
-            priority: "priority: Looow Yeah",
-            taskId:++this.taskId
-        }
-        this.setState({...this.state, tasks: [...this.state.tasks, newTask]}, this.saveStateToLocalStorage)
-
-
-    }
-    changeFilterValue = (newFilterValue) => {
+state={tasks:[],filterValue:"ALL"}
+        changeFilterValue = (newFilterValue) => {
         this.setState({...this.state, filterValue: newFilterValue}, this.saveStateToLocalStorage
         )
 
@@ -63,16 +25,16 @@ class TodoList extends React.Component {
 
 
     render = () => {
-        let filteredTasks = (this.state.filterValue === "ALL") ? this.state.tasks : (this.state.filterValue === "Active") ?
-            this.state.tasks.filter(item => item.checked === false) : this.state.filterValue === "Completed" ? this.state.tasks.filter(item => item.checked === true) : ''
+        let filteredTasks = (this.state.filterValue === "ALL") ? this.props.tasks : (this.state.filterValue === "Active") ?
+            this.props.tasks.filter(item => item.checked === false) : this.state.filterValue === "Completed" ? this.props.tasks.filter(item => item.checked === true) : ''
 
         return (
             <div className="App">
                 <div className="todoList">
-                    <TodoListHeader placeholder={this.props.placeholder} title={this.props.title} addNewTask={this.addNewTask}/>
-                    <TodoListTasks onChangeInputValue={this.onChangeInputValue} changeTaskName={this.changeTaskName}
+                    <TodoListHeader deleteCurrentToDoList={this.props.deleteCurrentToDoList} todoListId={this.props.todoListId} placeholder={this.props.placeholder} title={this.props.title} addNewTask={this.props.addNewTask}/>
+                    <TodoListTasks deleteCurrentTask={this.props.deleteCurrentTask} changeTaskCheckedValue={this.props.changeTaskCheckedValue} todoListId={this.props.todoListId} changeTaskName={this.props.changeTaskName} onChangeInputValue={this.onChangeInputValue}
                                    tasks={filteredTasks}/>
-                    <TodoListFooter changeFilterValue={this.changeFilterValue} filterValue={this.state.filterValue}/>
+                    <TodoListFooter  changeFilterValue={this.changeFilterValue} filterValue={this.state.filterValue}/>
                 </div>
             </div>
         );

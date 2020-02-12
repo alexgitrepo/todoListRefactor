@@ -23,3 +23,5 @@
   display: flex;
   flex-wrap:wrap;
 }
+.todoList-headerWrapper {display: flex;align-items: center}
+.todoList-header__title {margin-right: 10px;}
