@@ -1,6 +1,8 @@
 import {todoListAPI} from "./api";
 import {ITask, ITodolist} from "./types";
 import {Dispatch} from "react"
+import { ThunkDispatch } from "redux-thunk";
+import {AppState} from "./redux-store";
 const SET_TO_DO_LISTS = "SET_TO_DO_LISTS"
 const ADD_TO_DO_LIST = "ADD_TO_DO_LIST"
 const DELETE_TO_DO_LIST = "DELETE_TO_DO_LIST"
@@ -22,11 +24,11 @@ let reducer = (state = initialState, action:AppReducerAtcionTypes):IIinitialStat
         case DELETE_TASK:
             return {
                 ...state, todoLists: state.todoLists.map((item:ITodolist) => {
-                    debugger
-                    if (item.id === action.todolistId) {
+
+                    if (item._id === action.todolistId) {
                         return {
                             ...item, tasks: item.tasks.filter(task => {
-                                return task.id !== action.taskId;
+                                return task._id !== action.taskId;
                             })
                         }
                     } else return item
@@ -37,10 +39,10 @@ let reducer = (state = initialState, action:AppReducerAtcionTypes):IIinitialStat
         case UPDATE_TASK:
             return {
                 ...state, todoLists: state.todoLists.map((item:ITodolist) => {
-                    if (item.id === action.todolistId) {
+                    if (item._id === action.todolistId) {
                         return {
                             ...item, tasks: item.tasks.map(task => {
-                                if (task.id === action.taskId) {
+                                if (task._id === action.taskId) {
                                     return action.task
                                 } else return task
                             })
@@ -51,7 +53,7 @@ let reducer = (state = initialState, action:AppReducerAtcionTypes):IIinitialStat
         case ADD_TASK:
             return {
                 ...state, todoLists: state.todoLists.map((item:ITodolist) => {
-                    if (item.id === action.todolistId) {
+                    if (item._id === action.todolistId) {
 
                         return {...item, tasks: [...item.tasks, action.newTask]}
                     } else return item
@@ -61,7 +63,7 @@ let reducer = (state = initialState, action:AppReducerAtcionTypes):IIinitialStat
         case SET_TO_DO_LIST_TASKS:
             return {
                 ...state, todoLists: state.todoLists.map((item:ITodolist) => {
-                    if (item.id === action.todolistId) {
+                    if (item._id === action.todolistId) {
 
                         return {...item, tasks: action.tasks}
                     } else return item
@@ -82,9 +84,9 @@ let reducer = (state = initialState, action:AppReducerAtcionTypes):IIinitialStat
             }
 
         case DELETE_TO_DO_LIST:
-            debugger
+
             return {
-                ...state, todoLists: state.todoLists.filter((item:ITodolist) => item.id !== action.todolistId)
+                ...state, todoLists: state.todoLists.filter((item:ITodolist) => item._id !== action.todolistId)
             }
 
 
@@ -99,17 +101,17 @@ export const setTodoListsTC = () => async (dispatch:Dispatch<AppActionTypes>) =>
     }
 }
 
-export const getTasksTC = (todolistId:string) => async (dispatch:Dispatch<AppActionTypes>) => {
+export const getTasksTC = (todolistId:string) => async (dispatch:ThunkDispatch<AppState,any,AppActionTypes>) => {
     let response = await todoListAPI.getTasks(todolistId)
     if (response) {
-        dispatch(setTodoListTasksAC(todolistId, response.data.items))
+        dispatch(setTodoListTasksAC(todolistId, response))
     }
 }
 export const updateTasksTC = (task:ITask, taskId:string, todoListId:string) => async (dispatch:Dispatch<AppActionTypes>) => {
     let response = await todoListAPI.updateTask(task, taskId, todoListId)
     if (response.data.resultCode === 0) {
 
-        dispatch(updateTaskAC(todoListId, taskId, response.data.data.item))
+        dispatch(updateTaskAC(todoListId, taskId, response.data.item))
     }
 }
 
@@ -124,7 +126,7 @@ export const deleteTaskTC = (taskId:string, todoListId:string) => async (dispatc
 export const addTodoListTC = (title:string) => async (dispatch:Dispatch<AppActionTypes>) => {
     let response = await todoListAPI.addTodoList(title)
     if (response) {
-        dispatch(addTodoListsAC(response.data.data.item))
+        dispatch(addTodoListsAC(response.data.item))
     }
 }
 export const deleteTodoListTC = (todolistId:string) => async (dispatch:Dispatch<AppActionTypes>) => {
@@ -136,7 +138,7 @@ export const deleteTodoListTC = (todolistId:string) => async (dispatch:Dispatch<
 export const addTaskTC = (taskTitle:string, todolistId:string) => async (dispatch:Dispatch<AppActionTypes>) => {
     let response = await todoListAPI.addTask(taskTitle, todolistId)
     if (response) {
-        dispatch(addTaskAC(todolistId, response.data.data.item))
+        dispatch(addTaskAC(todolistId, response.data.item))
     }
 }
 

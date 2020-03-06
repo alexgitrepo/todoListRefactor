@@ -1,20 +1,13 @@
 import './App.css';
 import * as React from "react";
+import deleteIcon from '../src/assets/img/svg/rubbish.svg'
+
 interface IState {
     editModeTask: boolean,
     editModePriority:boolean,
     newTaskName: string,
     newPriority:string
 }
-// TodoListTask deleteTask={this.props.deleteTask}
-// updateTask={this.props.updateTask}
-// onChangeInputValue={this.props.onChangeInputValue}
-// taskId={item.id} task={item}
-// todoListId={this.props.todoListId}/>)
-
-
-
-
 interface IProps {
     deleteTask:(taskId:string, todoListId:string)=> void
     updateTask:(task:any, taskId:string, todoListId:string)=> void
@@ -30,7 +23,7 @@ class TodoListTask extends React.Component<IProps,IState> {
         newTaskName: "",
         newPriority:""
     }
-    EditModeOn = () => {debugger
+    EditModeOn = () => {
         this.setState({editModeTask: true})
     }
     EditModeTaskPriorityOn= () => {
@@ -78,21 +71,22 @@ class TodoListTask extends React.Component<IProps,IState> {
         this.setState({newPriority: e.target.value})
     }
     render = () => {
-        return <div className={`todoList-task ${this.props.task.checked ? "taskChecked" : ""}`}>
+        return <div className={`todoList-task ${this.props.task.status===2 ? "taskChecked" : ""}`}>
             <input onChange={(e) => {this.newCheckedValue(e)}} type="checkbox" checked={(this.props.task.status === 2) ? true : false}/>
-            {!this.state.editModeTask &&
-            <span
-                onDoubleClick={this.EditModeOn}>{`${this.props.task.order} - ${this.props.task.title}` }</span>}
-            {this.state.editModeTask && <input placeholder="Enter new task title" autoFocus={true} onBlur={this.EditModeOff} onChange={this.setNewTaskName}
+
+            <span>{`${this.props.task.order}`}</span>
+            {!this.state.editModeTask && <span
+                onDoubleClick={this.EditModeOn}>{`${this.props.task.title}` }</span>}
+            {this.state.editModeTask && <input placeholder="Enter new title" autoFocus={true} onBlur={this.EditModeOff} onChange={this.setNewTaskName}
                                                value={this.state.newTaskName} type="text"/>}
             {!this.state.editModePriority &&
             <span
-                onDoubleClick={this.EditModeTaskPriorityOn}>{`task priority: ${this.props.task.priority}`}</span>}
+                onDoubleClick={this.EditModeTaskPriorityOn}>{`  task priority: ${this.props.task.priority}`}</span>}
             {this.state.editModePriority && <input placeholder="Enter new priority value" autoFocus={true} onBlur={this.EditModeTaskPriorityOff} onChange={this.setNewPriority}
                                                value={this.state.newPriority} type="text"/>}
 
             <button onClick={() => {this.props.deleteTask(this.props.taskId,this.props.todoListId)
-            }}>X
+            }}><img className='todoList-header__delete-button-img' src={deleteIcon} alt=""/>
             </button>
         </div>
     }

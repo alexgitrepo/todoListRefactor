@@ -15,6 +15,7 @@ class ItemInput extends React.Component {
             this.setState({inputErrorStyle: true})
         } else {
             this.props.addItem(this.state.inputValue,this.props.todoListId);
+            debugger
             this.setState({inputValue: ""})
             this.setState({inputErrorStyle: false})
         }
@@ -25,7 +26,7 @@ class ItemInput extends React.Component {
         return (<div className="todoList-newTaskForm">
                 <input className={this.state.inputErrorStyle ? "inputErrorStyle" : ""} onChange={this.inputOnChange}
                        value={this.state.inputValue} type="text" placeholder={this.props.placeholder}/>
-                <button onClick={this.addNewItem}>Add</button>
+                <button onClick={this.addNewItem}>+</button>
             </div>
 
         );

@@ -1,9 +1,9 @@
 import * as axios from "axios";
 
 const instance = axios.create({
-    withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    headers: {"API-KEY": "2e11e55a-6317-486e-b332-4118c5f8bf85"},
+    // withCredentials: true,
+    baseURL: 'https://radiant-plains-31062.herokuapp.com',
+    // headers: {"API-KEY": "2e11e55a-6317-486e-b332-4118c5f8bf85"},
 })
 
 
@@ -11,7 +11,7 @@ export const todoListAPI = {
     getTodoLists: () => {
         return instance.get('/todo-lists')
     }, getTasks: (todolistId) => {
-        return instance.get(`/todo-lists/${todolistId}/tasks`)
+        return instance.get(`/todo-lists/${todolistId}/tasks`).then((r)=>r.data)
     }
     ,
     addTodoList: (title) => {
@@ -20,7 +20,7 @@ export const todoListAPI = {
     deleteTodoList: (todolistId) => {
         return instance.delete(`/todo-lists/${todolistId}`)
     },
-    addTask: (taskTitle, todolistId) => {
+    addTask: (taskTitle, todolistId) => {debugger
         return instance.post(`/todo-lists/${todolistId}/tasks`, {title: taskTitle})
     },
     updateTask: (task, taskId, todoListId) => {

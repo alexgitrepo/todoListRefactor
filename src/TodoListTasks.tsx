@@ -17,7 +17,7 @@ class TodoListTasks extends React.Component<IProps> {
         let tasksElements = tasks.map((item:ITask) => <TodoListTask deleteTask={this.props.deleteTask}
                                                             updateTask={this.props.updateTask}
                                                             // onChangeInputValue={this.props.onChangeInputValue}
-                                                            taskId={item.id} task={item}
+                                                            taskId={item._id} task={item}
                                                             todoListId={this.props.todoListId}/>)
         return (
             <div className="todoList-tasks">

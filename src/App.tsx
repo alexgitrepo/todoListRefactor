@@ -31,7 +31,7 @@ class App extends React.Component<IMapState&IMapDispatch> {
             updateTask={this.props.updateTask}
             tasks={item.tasks} title={item.title}
             placeholder={"Add new task"}
-            todoListId={item.id}/>)
+            todoListId={item._id}/>)
         return (
             <div className="App">
                 <ItemInput addItem={this.props.addTodoList} placeholder={"New todolist name"}/>
