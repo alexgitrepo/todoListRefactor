@@ -15,6 +15,7 @@ import {AppState} from "./redux-store";
 import {ITask, ITodolist} from "./types";
 import { ThunkDispatch } from 'redux-thunk';
 import TodoList from "./TodoList";
+import Preloader from "./Preloader";
 
 class App extends React.Component<IMapState&IMapDispatch> {
     componentDidMount() {
@@ -24,6 +25,7 @@ class App extends React.Component<IMapState&IMapDispatch> {
 
     render = () => {
         let todoLists = this.props.todoLists.map((item:ITodolist) => <TodoList
+            key={item._id}
             deleteTask={this.props.deleteTask}
             deleteTodoList={this.props.deleteTodoList}
             addTask={this.props.addTask}
@@ -32,6 +34,7 @@ class App extends React.Component<IMapState&IMapDispatch> {
             tasks={item.tasks} title={item.title}
             placeholder={"Add new task"}
             todoListId={item._id}/>)
+        if (this.props.isFetching) {return <Preloader/>}
         return (
             <div className="App">
                 <ItemInput addItem={this.props.addTodoList} placeholder={"New todolist name"}/>
@@ -43,12 +46,14 @@ class App extends React.Component<IMapState&IMapDispatch> {
     }
 }
 interface IMapState {
-    todoLists:Array<ITodolist>
+    todoLists:Array<ITodolist>,
+    isFetching:boolean
 }
 
 let mapStateToProps = (state:AppState):IMapState => {
     return {
-        todoLists: state.todoLists
+        todoLists: state.todoLists,
+        isFetching:state.isFetching
     }
 }
 interface IMapDispatch {

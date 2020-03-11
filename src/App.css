@@ -10,6 +10,14 @@ body {
 
 }
 
+.preloader {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.preloader img{
+    width: 150px;
+}
 .todoLists {
     display: flex;
     justify-content: space-between;
@@ -54,7 +62,7 @@ body {
 
 
 .todoList-newTaskForm input[type=text].inputErrorStyle {
-    box-shadow: 0 -2px 0 rgba(240,77,62,0.58) inset;
+    box-shadow: 0 -2px 0 rgba(240, 77, 62, 0.58) inset;
 }
 
 .todoList-task {
@@ -64,11 +72,14 @@ body {
     padding: 10px;
 
 }
+
 .todoList-task.taskChecked {
     opacity: 0.4
 }
+
 .todoList-task span {;
 }
+
 .todoList-task input {
     max-width: 130px;
     background: none;
@@ -183,9 +194,26 @@ body {
     background-image: linear-gradient(#687480 0%, #3b4755 100%);
     color: #fff;
 }
+
 .todoList-footer span {
-    border-bottom:1px solid black ;
+    border-bottom: 1px solid black;
 }
+
 .todoList-footer span:hover {
-    cursor:pointer ;
+    cursor: pointer;
+}
+
+.todoList-newTaskForm {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+.todoList-newTaskForm input {
+    max-width: 200px;
+}
+
+.todoLists .todoList-newTaskForm input {
+    max-width: 100%;
 }
