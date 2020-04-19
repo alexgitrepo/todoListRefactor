@@ -3,7 +3,7 @@ import preloader from './assets/animation/index.infinity-rotate-cycle-loader.svg
 
 const Preloader = (props)=> {
 return (
-    <div className='preloader'>
+    <div className='prelgit oader'>
         <img src={preloader} alt=""/>
     </div>
 )

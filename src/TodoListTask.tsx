@@ -14,6 +14,7 @@ interface IProps {
     taskId:string
     todoListId:string
     task:any
+    order:number
 
 }
 class TodoListTask extends React.Component<IProps,IState> {
@@ -74,7 +75,7 @@ class TodoListTask extends React.Component<IProps,IState> {
         return <div className={`todoList-task ${this.props.task.status===2 ? "taskChecked" : ""}`}>
             <input onChange={(e) => {this.newCheckedValue(e)}} type="checkbox" checked={(this.props.task.status === 2) ? true : false}/>
 
-            <span>{`${this.props.task.order}`}</span>
+            <span>{`${this.props.order}`}</span>
             {!this.state.editModeTask && <span
                 onDoubleClick={this.EditModeOn}>{`${this.props.task.title}` }</span>}
             {this.state.editModeTask && <input placeholder="Enter new title" autoFocus={true} onBlur={this.EditModeOff} onChange={this.setNewTaskName}

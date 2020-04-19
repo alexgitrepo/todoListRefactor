@@ -14,7 +14,8 @@ interface IProps {
 class TodoListTasks extends React.Component<IProps> {
     render = () => {
         let {tasks = []} = this.props
-        let tasksElements = tasks.map((item: ITask) => <TodoListTask
+        let tasksElements = tasks.map((item: ITask,index:number) => <TodoListTask
+            order={++index}
             key={item._id}
             deleteTask={this.props.deleteTask}
             updateTask={this.props.updateTask}
